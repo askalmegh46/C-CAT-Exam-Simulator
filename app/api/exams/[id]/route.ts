@@ -12,7 +12,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (sError || !session) return NextResponse.json({ error: 'Session not found' }, { status: 404 });
 
   const { data: rows, error } = await supabase.from('exam_session_questions')
-    .select('position,selected_answer,marked_for_review,question_id,questions(id,section,topic,difficulty,question,options,explanation,source_type,source_label)')
+    .select('position,selected_answer,marked_for_review,time_spent_seconds,question_id,questions(id,section,topic,difficulty,question,options,source_type,source_label)')
     .eq('session_id', id).order('position');
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
@@ -21,6 +21,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     position: r.position,
     selected_answer: r.selected_answer,
     marked_for_review: r.marked_for_review,
+    time_spent_seconds: r.time_spent_seconds || 0,
   }));
   return NextResponse.json({ session, questions });
 }
