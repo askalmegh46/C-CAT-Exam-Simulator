@@ -1,2 +1,0 @@
-import Link from 'next/link';import AuthForm from '@/components/AuthForm';
-export default function Signup(){return <main className="auth"><div className="card authbox"><div className="brand">C-CAT<span>LAB</span></div><h1>Create your account</h1><p className="muted">Your attempts, bookmarks and analytics will be stored in Supabase.</p><AuthForm mode="signup"/><p className="muted">Already registered? <Link href="/login">Sign in</Link></p></div></main>}

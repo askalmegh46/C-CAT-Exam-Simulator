@@ -1,2 +1,0 @@
-import Link from 'next/link';import AuthForm from '@/components/AuthForm';
-export default function Login(){return <main className="auth"><div className="card authbox"><div className="brand">C-CAT<span>LAB</span></div><h1>Welcome back</h1><p className="muted">Sign in to continue your C-CAT preparation.</p><AuthForm mode="login"/><p className="muted">New here? <Link href="/signup">Create an account</Link></p></div></main>}
