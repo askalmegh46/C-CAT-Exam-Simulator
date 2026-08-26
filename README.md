@@ -44,3 +44,26 @@ The included 100 questions are the original source-aware practice bank from v4. 
 - Daily practice and adaptive tests
 - Email/OAuth login options
 - Vercel deployment + Supabase production configuration
+
+
+## v5.3-v5.5 UI upgrade
+The current build adds the LeetCode-inspired Problems interface, Day/Night theme, searchable/filterable question bank, difficulty progress, bookmark persistence, and focused practice workspace. See `STAGE_4_5.md`.
+
+
+## v5.9–v5.10
+See `STAGE_9_10.md` for security hardening, exam-integrity controls, RLS tightening and automated QA tests.
+
+## v5.8-v6.0 integrated production release
+- Advanced configurable mock builder and A/B/A+B simulations.
+- Server-authoritative timers, answers and scoring.
+- Admin-only question CRUD at `/admin/questions`.
+- Production indexes and `audit_logs` migration.
+- `/api/health` deployment smoke check.
+- Loading/error/not-found boundaries.
+- See `STAGES_11_13_6_0.md` for the complete release checklist.
+
+## v6.1 Feature Integrations
+
+New routes: `/ai-study`, `/leaderboard`, `/api/ai/explain`, `/api/ai/generate`, `/api/activity`, `/api/flags`, `/api/admin/flags`, `/api/admin/questions/import`.
+
+Configure `OPENAI_API_KEY` and optionally `OPENAI_MODEL` for AI features. AI keys are server-side only.
