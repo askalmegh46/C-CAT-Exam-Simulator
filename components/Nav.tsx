@@ -1,0 +1,3 @@
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
+export default async function Nav(){const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();return <nav className="nav"><div className="navin"><Link href="/dashboard" className="brand">C-CAT<span>LAB</span></Link><div className="navlinks"><Link href="/dashboard">Dashboard</Link><Link href="/practice">Practice</Link><Link href="/mock">Mock Tests</Link><Link href="/revision">Revision</Link><Link href="/analytics">Analytics</Link><Link href="/sources">Sources</Link>{user&&<Link href="/admin/questions">Admin</Link>}</div><span className="pill">{user?.email??'Guest'}</span></div></nav>}

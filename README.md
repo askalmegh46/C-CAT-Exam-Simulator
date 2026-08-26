@@ -1,23 +1,55 @@
-# C-CAT Exam Simulator v5 — Next.js + Supabase
+# C-CAT Exam Simulator v6 — Next.js + Supabase
 
-This version replaces the FastAPI backend with a Next.js App Router + Supabase architecture. It keeps the existing 100-question source-labelled practice bank and moves questions/attempts into PostgreSQL through Supabase.
+Production-oriented C-CAT practice and mock-exam simulator with a **1,000-question PostgreSQL/Supabase bank**.
 
-## Stack
-- Next.js App Router + TypeScript
-- Supabase Auth (cookie-based SSR)
-- Supabase Postgres + Row Level Security
-- Native Next.js server components and client components
+## Question bank
+
+The bank is aligned to the current C-DAC C-CAT Sections A and B syllabus. C-DAC lists four Section A topics and five Section B topics; each section of C-CAT contains 50 objective questions and uses +3/-1/0 scoring.
+
+| Section | Topic | Questions |
+|---|---|---:|
+| A | English | 125 |
+| A | Quantitative Aptitude | 125 |
+| A | Reasoning | 125 |
+| A | Computer Fundamentals & Concepts of Programming | 125 |
+| **A subtotal** | | **500** |
+| B | C Programming | 100 |
+| B | Data Structures | 100 |
+| B | OOP Concepts using C++ | 100 |
+| B | Operating Systems & Networking | 100 |
+| B | Basics of Big Data & Artificial Intelligence | 100 |
+| **B subtotal** | | **500** |
+| **Total** | | **1,000** |
+
+## Exam generation
+
+- Section A mock: 50 randomly selected questions, balanced across the four Section A topics.
+- Section B mock: 50 randomly selected questions, balanced across the five Section B topics.
+- Full A+B mock: 50 Section A + 50 Section B.
+- Each generated exam is shuffled.
+- Scoring: +3 correct, -1 wrong, 0 unanswered.
 
 ## Setup
+
 1. Install Node.js 20+.
 2. Create a Supabase project.
-3. In Supabase SQL Editor, run `supabase/schema.sql`, then `supabase/seed.sql`.
-4. Copy `.env.example` to `.env.local` and add your Supabase Project URL and Publishable Key.
-5. Run `npm install`.
-6. Run `npm run dev`.
-7. Open http://localhost:3000.
+3. Run `supabase/schema.sql` in Supabase SQL Editor.
+4. Run `supabase/seed.sql` in Supabase SQL Editor.
+5. Copy `.env.example` to `.env.local` and add the Supabase Project URL and Publishable Key.
+6. Run `npm install`.
+7. Run `npm run validate:questions`.
+8. Run `npm run dev`.
+
+## Important Supabase URL
+
+`NEXT_PUBLIC_SUPABASE_URL` must be the project API URL:
+
+`https://YOUR_PROJECT_REF.supabase.co`
+
+Do not use a Supabase Dashboard URL such as `https://supabase.com/dashboard/project/...`.
 
 ## Routes
+
 - `/login` and `/signup`
 - `/dashboard`
 - `/practice`
@@ -29,41 +61,16 @@ This version replaces the FastAPI backend with a Next.js App Router + Supabase a
 - `/sources`
 - `/admin/questions`
 
-## Security
-The schema enables Row Level Security. Questions are readable by authenticated users. Attempts, answers, bookmarks and profiles are scoped to the signed-in user.
-
 ## Source policy
-The included 100 questions are the original source-aware practice bank from v4. Third-party material is labelled as memory-based, sample-pattern or practice-style and is not represented as an official C-DAC paper. The source links are kept in the Sources page.
+
+The original 100 seed questions are preserved with their existing source labels. The additional questions are marked `Original generated practice` and are original simulator practice items; they are not represented as official C-DAC questions.
 
 ## Next production stages
-- Admin role enforcement using profiles.role
+
+- Admin role enforcement using `profiles.role`
 - Full CRUD question manager
-- Server-side exam session/timer persistence
-- Bookmark UI persistence
+- Question import/export tools
 - Topic-level analytics
 - Daily practice and adaptive tests
-- Email/OAuth login options
+- More robust question-quality review workflow
 - Vercel deployment + Supabase production configuration
-
-
-## v5.3-v5.5 UI upgrade
-The current build adds the LeetCode-inspired Problems interface, Day/Night theme, searchable/filterable question bank, difficulty progress, bookmark persistence, and focused practice workspace. See `STAGE_4_5.md`.
-
-
-## v5.9–v5.10
-See `STAGE_9_10.md` for security hardening, exam-integrity controls, RLS tightening and automated QA tests.
-
-## v5.8-v6.0 integrated production release
-- Advanced configurable mock builder and A/B/A+B simulations.
-- Server-authoritative timers, answers and scoring.
-- Admin-only question CRUD at `/admin/questions`.
-- Production indexes and `audit_logs` migration.
-- `/api/health` deployment smoke check.
-- Loading/error/not-found boundaries.
-- See `STAGES_11_13_6_0.md` for the complete release checklist.
-
-## v6.1 Feature Integrations
-
-New routes: `/ai-study`, `/leaderboard`, `/api/ai/explain`, `/api/ai/generate`, `/api/activity`, `/api/flags`, `/api/admin/flags`, `/api/admin/questions/import`.
-
-Configure `OPENAI_API_KEY` and optionally `OPENAI_MODEL` for AI features. AI keys are server-side only.
